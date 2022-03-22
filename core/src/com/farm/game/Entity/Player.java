@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.farm.game.SpriteHandler.Animator;
+import com.farm.game.Time.Time;
 
 public class Player implements IEntity {
 
@@ -67,7 +68,7 @@ public class Player implements IEntity {
 
     @Override
     public void update(SpriteBatch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += Time.deltaTime;
 
         sprite.setPosition(0, 0);
         idle.playAnimationToSprite(sprite, stateTime, true);
