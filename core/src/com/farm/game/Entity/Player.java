@@ -1,6 +1,7 @@
 package com.farm.game.Entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -9,7 +10,10 @@ import com.farm.game.Time.Time;
 
 public class Player implements IEntity {
 
+    Vector2 position;
     Sprite sprite;
+
+    final float moveSpeed = 300f;
 
     Animator idle;
     float stateTime;
@@ -19,6 +23,7 @@ public class Player implements IEntity {
         sprite = new Sprite();
         sprite.setRegion(idle.getAnimationFrames()[0]);
         sprite.setBounds(0, 0, 50, 50);
+        position = new Vector2(0, 0);
     }
 
     @Override
@@ -43,17 +48,36 @@ public class Player implements IEntity {
 
     @Override
     public void setPosition(Vector2 position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+        sprite.setPosition(position.x, position.y);
+    }
 
+    @Override
+    public void setPostion(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+        sprite.setPosition(this.position.x, this.position.y);
     }
 
     @Override
     public Vector2 getPosition() {
-        return null;
+        return position;
     }
 
     @Override
     public void Move() {
+        float deltaY = 0f;
+        float deltaX = 0f;
 
+        deltaY = (Gdx.input.isKeyPressed(Input.Keys.W)) ? moveSpeed : deltaY;
+        deltaY = (Gdx.input.isKeyPressed(Input.Keys.S)) ? -moveSpeed : deltaY;
+        deltaX = (Gdx.input.isKeyPressed(Input.Keys.A)) ? -moveSpeed : deltaX;
+        deltaX = (Gdx.input.isKeyPressed(Input.Keys.D)) ? moveSpeed : deltaX;
+
+        position.x += deltaX * Time.deltaTime;
+        position.y += deltaY * Time.deltaTime;
+        sprite.setPosition(position.x, position.y);
     }
 
     @Override
@@ -71,6 +95,7 @@ public class Player implements IEntity {
         stateTime += Time.deltaTime;
 
         sprite.setPosition(0, 0);
+        Move();
         idle.playAnimationToSprite(sprite, stateTime, true);
         sprite.draw(batch);
     }

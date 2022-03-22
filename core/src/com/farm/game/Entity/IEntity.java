@@ -17,6 +17,8 @@ public interface IEntity {
 
     void setPosition(Vector2 position);
 
+    void setPostion(float x, float y);
+
     Vector2 getPosition();
 
     void Move();
