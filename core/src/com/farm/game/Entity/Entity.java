@@ -97,11 +97,12 @@ public abstract class Entity implements IEntity {
     @Override
     public abstract void create();
 
-    protected abstract void update();
 
     @Override
     public abstract void draw();
 
     @Override
     public abstract void dispose();
+
+    protected abstract void update();
 }
