@@ -3,6 +3,7 @@ package com.farm.game.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity implements IEntity {
@@ -29,6 +30,7 @@ public abstract class Entity implements IEntity {
     @Override
     public IEntity setPosition(Vector2 position) {
         _position = position;
+        _sprite.setPosition(_position.x, _position.y);
         return this;
     }
 
@@ -41,6 +43,23 @@ public abstract class Entity implements IEntity {
     @Override
     public IEntity setSize(Vector2 size) {
         _size = size;
+        _sprite.setSize(_size.x, _size.y);
+        return this;
+    }
+
+    @Override
+    public IEntity setTexture(Texture texture) {
+        _texture = texture;
+        _sprite.setTexture(_texture);
+        _sprite.setRegion(_texture);
+        return this;
+    }
+
+    @Override
+    public IEntity setTexture(TextureRegion textureRegion) {
+        _texture = textureRegion.getTexture();
+        _sprite.setTexture(_texture);
+        _sprite.setRegion(_texture);
         return this;
     }
 
@@ -76,12 +95,9 @@ public abstract class Entity implements IEntity {
     }
 
     @Override
-    public void update(SpriteBatch batch) {
+    public abstract void create();
 
-    }
-
-    @Override
-    public abstract void update();
+    protected abstract void update();
 
     @Override
     public abstract void draw();

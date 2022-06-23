@@ -3,6 +3,7 @@ package com.farm.game.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public interface IEntity {
@@ -12,6 +13,8 @@ public interface IEntity {
     IEntity setName(String name);
     IEntity setVelocity(Vector2 velocity);
     IEntity setSize(Vector2 size);
+    IEntity setTexture(Texture texture);
+    IEntity setTexture(TextureRegion textureRegion);
 
     Sprite getSprite();
     Texture getTexture();
@@ -20,8 +23,7 @@ public interface IEntity {
     Vector2 getVelocity();
     Vector2 getSize();
 
-    void update(SpriteBatch batch);
-    void update();
+    void create();
     void draw();
     void dispose();
 }

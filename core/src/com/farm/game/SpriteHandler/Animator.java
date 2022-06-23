@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class Animator {
 
@@ -42,6 +43,13 @@ public class Animator {
         this.currentFrame = this.animation.getKeyFrame(stateTime, loop);
 
         batch.draw(this.currentFrame, x, y, w, h);
+    }
+
+    public void playAnimation(SpriteBatch batch, float stateTime, boolean loop, Vector2 pos, Vector2 size)
+    {
+        this.currentFrame = this.animation.getKeyFrame(stateTime, loop);
+
+        batch.draw(this.currentFrame, pos.x, pos.y, size.x, size.y);
     }
 
     public void stopAnimation(float stateTime)
