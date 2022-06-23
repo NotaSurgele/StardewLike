@@ -1,12 +1,15 @@
 package com.farm.game.Game;
 
 import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
+import com.farm.game.Time.Time;
+import com.farm.game.Input.Input;
 
 public class Player extends Entity {
 
@@ -20,6 +23,9 @@ public class Player extends Entity {
         this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).
                     setPosition(new Vector2(0, 0)).setSize(new Vector2(50, 50));
         batch = new SpriteBatch();
+    }
+
+    private void handleInput() {
     }
 
     @Override
