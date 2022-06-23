@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Entity implements IEntity {
+public abstract class Entity implements IEntity {
 
     protected Sprite _sprite;
     protected Texture _texture;
@@ -81,17 +81,11 @@ public class Entity implements IEntity {
     }
 
     @Override
-    public void update() {
-
-    }
+    public abstract void update();
 
     @Override
-    public void draw() {
-
-    }
+    public abstract void draw();
 
     @Override
-    public void dispose() {
-
-    }
+    public abstract void dispose();
 }
