@@ -31,6 +31,9 @@ public class Player extends Entity {
     @Override
     protected void update() {
         stateTime += Gdx.graphics.getDeltaTime();
+
+        if (Input.isKeyPressed(Input.Key.F))
+            System.out.println("key F pressed");
     }
 
     @Override

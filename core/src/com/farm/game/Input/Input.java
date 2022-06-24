@@ -8,7 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 
 public class Input implements InputProcessor {
 
-    static int key = -1;
+    private static int key = -1;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -163,7 +163,7 @@ public class Input implements InputProcessor {
         NONE
     }
 
-    static HashMap<Input.Key, Integer> inputMap = new HashMap<Key, Integer>() {{
+    private static HashMap<Input.Key, Integer> inputMap = new HashMap<Key, Integer>() {{
         put(Key.ENTER, Keys.ENTER);
         put(Key.BACKSPACE, Keys.BACKSPACE);
         put(Key.TAB, Keys.TAB);
@@ -280,5 +280,13 @@ public class Input implements InputProcessor {
                 return entry.getKey();
         }
         return null;
+    }
+
+    public static boolean isKeyPressed(Key k) {
+        for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
+            if (entry.getValue() == key)
+                return entry.getKey() == k;
+        }
+        return false;
     }
 }
