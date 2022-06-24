@@ -8,16 +8,19 @@ public class GameScene extends Scene {
     @Override
     public void create() {
         Core.addEntity(new Player());
+        load();
+    }
 
+    @Override
+    public void load() {
         for (Entity e : _entities)
             e.create();
     }
 
     @Override
     public void render() {
-        for (Entity e : _entities) {
+        for (Entity e : _entities)
             e.draw();
-        }
     }
 
     @Override

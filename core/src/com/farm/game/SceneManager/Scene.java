@@ -25,6 +25,9 @@ public abstract class Scene implements IScene {
     }
 
     @Override
+    public abstract void load();
+
+    @Override
     public abstract void create();
 
     @Override

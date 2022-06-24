@@ -7,6 +7,7 @@ public interface IScene {
     boolean addEntity(Entity entity);
     boolean removeEntity(Entity entity);
 
+    void load();
     void create();
     void render();
     void dispose();
