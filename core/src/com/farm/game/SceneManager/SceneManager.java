@@ -37,14 +37,20 @@ public class SceneManager {
     }
 
     public void create() {
+        if (_scenes.isEmpty())
+            return;
         _scenes.firstElement().create();
     }
 
     public void draw() {
+        if (_scenes.isEmpty())
+            return;
         _scenes.firstElement().render();
     }
 
     public void dispose() {
+        if (_scenes.isEmpty())
+            return;
         _scenes.firstElement().dispose();
     }
 }
