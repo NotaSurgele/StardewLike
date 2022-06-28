@@ -2,18 +2,21 @@ package com.farm.game.Entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.farm.game.Components.Component;
+
+import java.util.ArrayList;
 
 public abstract class Entity implements IEntity {
 
-    protected Sprite _sprite;
-    protected Texture _texture;
-    protected Vector2 _velocity;
-    protected Vector2 _position;
-    protected Vector2 _size;
-    protected String _name;
+    protected Sprite _sprite = null;
+    protected Texture _texture = null;
+    protected Vector2 _velocity = null;
+    protected Vector2 _position = null;
+    protected Vector2 _size = null;
+    protected String _name = null;
+    protected ArrayList<Component> _components = new ArrayList<>();
 
     @Override
     public IEntity setSprite(Sprite sprite) {
@@ -92,6 +95,41 @@ public abstract class Entity implements IEntity {
     @Override
     public Vector2 getSize() {
         return _size;
+    }
+
+    @Override
+    public IEntity addComponent(Component component) {
+        if (component != null)
+            _components.add(component);
+        return this;
+    }
+
+    @Override
+    public boolean removeComponent(Component component) {
+        return _components.remove(component);
+    }
+
+    @Override
+    public ArrayList<Component> getComponents() {
+        return _components;
+    }
+
+    @Override
+    public Component getComponent(String componentName) {
+        for (Component c : _components) {
+            if (c.getName().equalsIgnoreCase(componentName))
+                return c;
+        }
+        return null;
+    }
+
+    @Override
+    public Component getComponent(Component component) {
+        for (Component c : _components) {
+            if (c.getName().equalsIgnoreCase(component.getName()))
+                return c;
+        }
+        return null;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.farm.game.Input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import java.util.HashMap;
 import java.util.Map;
@@ -163,7 +162,7 @@ public class Input implements InputProcessor {
         NONE
     }
 
-    private static HashMap<Input.Key, Integer> inputMap = new HashMap<Key, Integer>() {{
+    private static final HashMap<Input.Key, Integer> inputMap = new HashMap<Key, Integer>() {{
         put(Key.ENTER, Keys.ENTER);
         put(Key.BACKSPACE, Keys.BACKSPACE);
         put(Key.TAB, Keys.TAB);

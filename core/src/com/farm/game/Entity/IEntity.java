@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.farm.game.Components.Component;
+
+import java.util.ArrayList;
 
 public interface IEntity {
 
@@ -15,13 +18,19 @@ public interface IEntity {
     IEntity setSize(Vector2 size);
     IEntity setTexture(Texture texture);
     IEntity setTexture(TextureRegion textureRegion);
+    IEntity addComponent(Component component);
 
+    ArrayList<Component> getComponents();
+    Component getComponent(Component component);
+    Component getComponent(String componentName);
     Sprite getSprite();
     Texture getTexture();
     String getName();
     Vector2 getPosition();
     Vector2 getVelocity();
     Vector2 getSize();
+
+    boolean removeComponent(Component component);
 
     void create();
     void draw();

@@ -3,11 +3,13 @@ package com.farm.game.Game;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SceneManager.Scene;
 import com.farm.game.SceneManager.SceneManager;
+import com.farm.game.Time.Time;
 import org.graalvm.compiler.api.replacements.Snippet;
 
 public class Core {
 
     private static Core instance = null;
+    private final Time time = new Time();
     private static final SceneManager sceneManager = new SceneManager();
 
     private Core() {
@@ -50,6 +52,7 @@ public class Core {
     }
 
     public void draw() {
+        time.update();
         sceneManager.draw();
     }
 

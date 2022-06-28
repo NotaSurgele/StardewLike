@@ -2,14 +2,13 @@ package com.farm.game.Game;
 
 import com.badlogic.gdx.Gdx;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
-import com.farm.game.Time.Time;
 import com.farm.game.Input.Input;
+import com.farm.game.Time.Time;
 
 public class Player extends Entity {
 
@@ -30,8 +29,8 @@ public class Player extends Entity {
 
     @Override
     protected void update() {
-        stateTime += Gdx.graphics.getDeltaTime();
-
+//        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += Time.deltaTime;
         if (Input.isKeyPressed(Input.Key.F))
             System.out.println("key F pressed");
     }
