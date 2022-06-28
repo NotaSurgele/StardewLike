@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
 import com.farm.game.Input.Input;
@@ -29,10 +30,12 @@ public class Player extends Entity {
 
     @Override
     protected void update() {
-//        stateTime += Gdx.graphics.getDeltaTime();
         stateTime += Time.deltaTime;
+
         if (Input.isKeyPressed(Input.Key.F))
             System.out.println("key F pressed");
+        for (Component c : _components)
+            c.draw();
     }
 
     @Override
