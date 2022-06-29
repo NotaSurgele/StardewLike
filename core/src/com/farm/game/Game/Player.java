@@ -9,12 +9,17 @@ import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
 import com.farm.game.Input.Input;
+import com.farm.game.StateManager.State;
+import com.farm.game.StateManager.StateManager;
 import com.farm.game.Time.Time;
+
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
     Animator idle;
     SpriteBatch batch;
+    StateManager stateManager;
     float stateTime = 0;
 
     @Override
@@ -23,6 +28,13 @@ public class Player extends Entity {
         this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).
                     setPosition(new Vector2(0, 0)).setSize(new Vector2(50, 50));
         batch = new SpriteBatch();
+        stateManager = new StateManager();
+        stateManager.pushState(
+                () -> {
+                    idle.playAnimationToSprite(_sprite, stateTime, true);
+                },
+                "Idle"
+        );
     }
 
     private void handleInput() {
@@ -32,8 +44,7 @@ public class Player extends Entity {
     protected void update() {
         stateTime += Time.deltaTime;
 
-        if (Input.isKeyPressed(Input.Key.F))
-            System.out.println("key F released");
+        stateManager.play("Idle");
         for (Component c : _components)
             c.draw();
     }
@@ -42,7 +53,6 @@ public class Player extends Entity {
     public void draw() {
         update();
         batch.begin();
-        idle.playAnimationToSprite(_sprite, stateTime, true);
         _sprite.draw(batch);
         batch.end();
     }

@@ -284,11 +284,8 @@ public class Input implements InputProcessor {
     }
 
     public static boolean isKeyPressed(Key k) {
-        if (_oldKey == _key)
-            return false;
         for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
             if (entry.getValue() == _key) {
-                _oldKey = _key;
                 return entry.getKey() == k;
             }
         }
