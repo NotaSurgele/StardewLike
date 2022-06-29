@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 public class Input implements InputProcessor {
 
     private static int key = -1;
+    private static int oldKey = -1;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -17,6 +18,7 @@ public class Input implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        oldKey = key;
         key = -1;
         return false;
     }
@@ -285,6 +287,18 @@ public class Input implements InputProcessor {
         for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
             if (entry.getValue() == key)
                 return entry.getKey() == k;
+        }
+        return false;
+    }
+
+    public static boolean isKeyReleased(Key k) {
+        for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
+            if (oldKey == entry.getValue()) {
+                if (entry.getKey() == k && key == -1) {
+                    key = -2;
+                    return true;
+                }
+            }
         }
         return false;
     }
