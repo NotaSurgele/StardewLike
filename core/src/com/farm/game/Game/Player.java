@@ -32,7 +32,7 @@ public class Player extends Entity {
     protected void update() {
         stateTime += Time.deltaTime;
 
-        if (Input.isKeyReleased(Input.Key.F))
+        if (Input.isKeyPressed(Input.Key.F))
             System.out.println("key F released");
         for (Component c : _components)
             c.draw();

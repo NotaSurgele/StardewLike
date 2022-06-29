@@ -7,19 +7,19 @@ import com.badlogic.gdx.Input.Keys;
 
 public class Input implements InputProcessor {
 
-    private static int key = -1;
-    private static int oldKey = -1;
+    private static int _key = -1;
+    private static int _oldKey = -1;
 
     @Override
     public boolean keyDown(int keycode) {
-        key = keycode;
+        _key = keycode;
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        oldKey = key;
-        key = -1;
+        _oldKey = _key;
+        _key = -1;
         return false;
     }
 
@@ -164,7 +164,7 @@ public class Input implements InputProcessor {
         NONE
     }
 
-    private static final HashMap<Input.Key, Integer> inputMap = new HashMap<Key, Integer>() {{
+    private static final HashMap<Input.Key, Integer> _inputMap = new HashMap<Key, Integer>() {{
         put(Key.ENTER, Keys.ENTER);
         put(Key.BACKSPACE, Keys.BACKSPACE);
         put(Key.TAB, Keys.TAB);
@@ -276,26 +276,31 @@ public class Input implements InputProcessor {
     }};
 
     public static Key getKeyPressed() {
-        for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
-            if (entry.getValue() == key)
+        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
+            if (entry.getValue() == _key)
                 return entry.getKey();
         }
         return null;
     }
 
     public static boolean isKeyPressed(Key k) {
-        for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
-            if (entry.getValue() == key)
+        if (_oldKey == _key)
+            return false;
+        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
+            if (entry.getValue() == _key) {
+                _oldKey = _key;
                 return entry.getKey() == k;
+            }
         }
         return false;
     }
 
     public static boolean isKeyReleased(Key k) {
-        for (Map.Entry<Key, Integer> entry : inputMap.entrySet()) {
-            if (oldKey == entry.getValue()) {
-                if (entry.getKey() == k && key == -1) {
-                    key = -2;
+        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
+            if (_oldKey == entry.getValue()) {
+                if (entry.getKey() == k && _key == -1) {
+                    _key = -2;
+                    _oldKey = -1;
                     return true;
                 }
             }
