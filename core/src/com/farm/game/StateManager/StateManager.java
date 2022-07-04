@@ -7,8 +7,9 @@ public class StateManager {
 
     private HashMap<IState, String> _stateMap = new HashMap<>();
 
-    public void pushState(IState state, String stateName) {
+    public StateManager pushState(IState state, String stateName) {
         _stateMap.put(state, stateName);
+        return this;
     }
 
     public void play(String name) {

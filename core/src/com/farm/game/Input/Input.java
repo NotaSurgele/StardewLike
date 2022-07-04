@@ -1,6 +1,8 @@
 package com.farm.game.Input;
 
 import com.badlogic.gdx.InputProcessor;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import com.badlogic.gdx.Input.Keys;
@@ -9,17 +11,18 @@ public class Input implements InputProcessor {
 
     private static int _key = -1;
     private static int _oldKey = -1;
+    private static final ArrayList<Integer> _keys = new ArrayList<>();
 
     @Override
     public boolean keyDown(int keycode) {
-        _key = keycode;
+        _keys.add(keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        _oldKey = _key;
-        _key = -1;
+        if (_keys.size() > 0)
+            _keys.remove((Integer) keycode);
         return false;
     }
 
@@ -276,18 +279,13 @@ public class Input implements InputProcessor {
     }};
 
     public static Key getKeyPressed() {
-        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
-            if (entry.getValue() == _key)
-                return entry.getKey();
-        }
         return null;
     }
 
     public static boolean isKeyPressed(Key k) {
-        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet()) {
-            if (entry.getValue() == _key) {
-                return entry.getKey() == k;
-            }
+        for (Map.Entry<Input.Key, Integer> entry : _inputMap.entrySet()) {
+            if (entry.getKey() == k)
+                return _keys.contains(entry.getValue());
         }
         return false;
     }

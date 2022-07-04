@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public abstract class Entity implements IEntity {
 
-    protected Sprite _sprite = null;
+    protected Sprite _sprite = new Sprite();
     protected Texture _texture = null;
-    protected Vector2 _velocity = null;
-    protected Vector2 _position = null;
+    protected Vector2 _velocity = new Vector2();
+    protected Vector2 _position = new Vector2();
     protected Vector2 _size = null;
     protected String _name = null;
     protected ArrayList<Component> _components = new ArrayList<>();
