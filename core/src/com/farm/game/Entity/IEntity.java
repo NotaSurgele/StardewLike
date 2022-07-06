@@ -15,6 +15,7 @@ public interface IEntity {
     IEntity setPosition(Vector2 position);
     IEntity setName(String name);
     IEntity setVelocity(Vector2 velocity);
+    IEntity setVelocity(float x, float y);
     IEntity setSize(Vector2 size);
     IEntity setTexture(Texture texture);
     IEntity setTexture(TextureRegion textureRegion);

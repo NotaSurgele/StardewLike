@@ -2,16 +2,18 @@ package com.farm.game.Game;
 
 import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
+import com.farm.game.Input.Input;
 import com.farm.game.SceneManager.Scene;
 import com.farm.game.SceneManager.SceneManager;
 import com.farm.game.Time.Time;
-import org.graalvm.compiler.api.replacements.Snippet;
 
 public class Core {
 
     private static Core instance = null;
     private final Time time = new Time();
     private static final SceneManager sceneManager = new SceneManager();
+
+    public static int DEBUG = 0;
 
     private Core() {
 
@@ -47,7 +49,7 @@ public class Core {
         return sceneManager.currentScene();
     }
 
-    public void create(@Snippet.NonNullParameter Scene s) {
+    public void create(Scene s) {
         sceneManager.addScene(s);
         sceneManager.create();
     }
@@ -59,11 +61,12 @@ public class Core {
 
     public void draw() {
         time.update();
-        for (Entity e : currentScene().getSceneEntities())
-            for (Component c : e.getComponents()) {
-                c.update();
-            }
         sceneManager.draw();
+        if (Input.isKeyPressed(Input.Key.F1))
+            DEBUG += (DEBUG == 1) ? -1 : 1;
+        for (Entity e : currentScene().getSceneEntities())
+            for (Component c : e.getComponents())
+                c.update();
     }
 
     public void dispose() {

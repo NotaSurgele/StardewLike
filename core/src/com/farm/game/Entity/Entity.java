@@ -44,6 +44,13 @@ public abstract class Entity implements IEntity {
     }
 
     @Override
+    public IEntity setVelocity(float x, float y) {
+        _velocity.x = x;
+        _velocity.y = y;
+        return this;
+    }
+
+    @Override
     public IEntity setSize(Vector2 size) {
         _size = size;
         _sprite.setSize(_size.x, _size.y);
