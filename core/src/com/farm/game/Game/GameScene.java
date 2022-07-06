@@ -8,7 +8,7 @@ public class GameScene extends Scene {
     @Override
     public void create() {
         Core.addEntity(new Tile());
-        Core.addEntity(new Player());
+        Core.addEntity(new Player(20, 20));
         load();
     }
 

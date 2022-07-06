@@ -24,11 +24,15 @@ public class Player extends Entity {
     float stateTime = 0;
     float speed = 200f;
 
+    public Player(float x, float y) {
+        _position.x = x;
+        _position.y = y;
+    }
+
     @Override
     public void create() {
         idle = Animator.initializeAnimation(idle, "knight_idle_spritesheet.png", 6, 1, .07f);
-        this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).
-                    setPosition(new Vector2(20, 20)).setSize(new Vector2(50, 50));
+        this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).setSize(new Vector2(50, 50));
         batch = new SpriteBatch();
         stateManager = new StateManager();
         createStates();
