@@ -25,10 +25,21 @@ public abstract class Scene implements IScene {
     }
 
     @Override
+    public ArrayList<Entity> getSceneEntities() {
+        return _entities;
+    }
+
+    @Override
     public abstract void load();
 
     @Override
     public abstract void create();
+
+    @Override final
+    public void clear() {
+        if (_entities.size() > 0)
+            _entities.clear();
+    }
 
     @Override
     public abstract void render();

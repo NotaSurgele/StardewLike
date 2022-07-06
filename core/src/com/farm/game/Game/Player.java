@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.farm.game.Components.AABBCollider;
 import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
@@ -31,12 +32,17 @@ public class Player extends Entity {
         batch = new SpriteBatch();
         stateManager = new StateManager();
         createStates();
+        this.addComponent(new AABBCollider(this, "Collider"));
+    }
+
+    private void setComponent() {
     }
 
     private void createStates() {
         stateManager.pushState(
             () -> {
-                idle.playAnimationToSprite(_sprite, stateTime, true);
+                if (_velocity.x == 0 && _velocity.y == 0)
+                    idle.playAnimationToSprite(_sprite, stateTime, true);
             },
             "Idle"
         );
@@ -55,8 +61,7 @@ public class Player extends Entity {
             _velocity.x = -1;
         else
             _velocity.x = 0;
-        if (_velocity.x == 0f && _velocity.y == 0f)
-            stateManager.play("Idle");
+        stateManager.play("Idle");
     }
 
     @Override
@@ -67,8 +72,6 @@ public class Player extends Entity {
 
         handleInput();
         setPosition(_position);
-        for (Component c : _components)
-            c.draw();
     }
 
     @Override

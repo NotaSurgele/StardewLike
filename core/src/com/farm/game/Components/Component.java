@@ -24,7 +24,5 @@ public abstract class Component implements IComponent {
 
     @Override
     public abstract void update();
-
-    @Override
-    public abstract void draw();
+    
 }

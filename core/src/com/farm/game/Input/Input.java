@@ -15,6 +15,7 @@ public class Input implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        _key = keycode;
         _keys.add(keycode);
         return false;
     }
@@ -23,6 +24,7 @@ public class Input implements InputProcessor {
     public boolean keyUp(int keycode) {
         if (_keys.size() > 0)
             _keys.remove((Integer) keycode);
+        _key = -1;
         return false;
     }
 
@@ -279,6 +281,9 @@ public class Input implements InputProcessor {
     }};
 
     public static Key getKeyPressed() {
+        for (Map.Entry<Key, Integer> entry : _inputMap.entrySet())
+            if (entry.getValue().equals(_key))
+                return entry.getKey();
         return null;
     }
 

@@ -24,6 +24,10 @@ public class SceneManager {
         return _scenes.remove(scene);
     }
 
+    public Scene currentScene() {
+        return _scenes.lastElement();
+    }
+
     public boolean addEntity(Entity entity) {
         if (_scenes.empty())
             return false;

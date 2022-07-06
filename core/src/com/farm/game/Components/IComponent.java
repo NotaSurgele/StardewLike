@@ -6,5 +6,4 @@ public interface IComponent {
 
     void create(String componentName);
     void update();
-    void draw();
 }

@@ -1,5 +1,6 @@
 package com.farm.game.Game;
 
+import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SceneManager.Scene;
 import com.farm.game.SceneManager.SceneManager;
@@ -42,6 +43,10 @@ public class Core {
         return sceneManager.removeEntity(entity);
     }
 
+    public Scene currentScene() {
+        return sceneManager.currentScene();
+    }
+
     public void create(@Snippet.NonNullParameter Scene s) {
         sceneManager.addScene(s);
         sceneManager.create();
@@ -51,8 +56,13 @@ public class Core {
         sceneManager.create();
     }
 
+
     public void draw() {
         time.update();
+        for (Entity e : currentScene().getSceneEntities())
+            for (Component c : e.getComponents()) {
+                c.update();
+            }
         sceneManager.draw();
     }
 
