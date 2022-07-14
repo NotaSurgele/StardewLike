@@ -9,7 +9,6 @@ buildscript {
         google()
     }
     dependencies {
-        
 
     }
 }
@@ -56,6 +55,7 @@ project(":core") {
 
 
     dependencies {
+        implementation files('../libs/json-simple-1.1.jar')
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         
     }

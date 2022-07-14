@@ -58,7 +58,7 @@ public class Input implements InputProcessor {
         return false;
     }
 
-    public static enum Key {
+    public enum Key {
         ENTER,
         BACKSPACE,
         TAB,
