@@ -42,7 +42,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"TilesetFloor.tsx"
+         "source":"maps/TilesetFloor.tsx"
         }],
  "tilewidth":16,
  "type":"map",

@@ -27,6 +27,7 @@ public class GameScene extends Scene {
     public void render() {
         for (Entity e : _entities)
             e.draw();
+        _tileSet.draw();
     }
 
     @Override

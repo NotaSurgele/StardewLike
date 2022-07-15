@@ -1,6 +1,7 @@
 package com.farm.game.Map;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,14 +17,19 @@ public class TileSet {
     int _tileWidth = 0;
     int _tileHeight = 0;
     int _tileCount = 0;
+    int _column = 0;
 
     Texture _tileSetImage = null;
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
     TextureRegion[] _textures = null;
+    TextureRegion _tileSet = null;
+
+    SpriteBatch batch = null;
 
     public TileSet(String tileSetConfig) {
         _tileSetConfig = tileSetConfig;
+        batch = new SpriteBatch();
     }
 
     private String getXMLFile() {
@@ -57,8 +63,10 @@ public class TileSet {
                 "tilewidth=",
                 "tileheight=",
                 "tilecount=",
+                "columns=",
+                "source="
         };
-        int[] results = new int[3];
+        int[] results = new int[4];
         int index = 0;
 
         while (scanner.hasNext()) {
@@ -66,25 +74,48 @@ public class TileSet {
 
             for (String s : matchingElem) {
                 if (data.contains(s)) {
-                    String[] buffer = data.split("=");
+                    if (!s.contains("source=")) {
+                        String[] buffer = data.split("=");
 
-                    results[index++] = Integer.parseInt(buffer[1].replace("\"", ""));
+                        results[index++] = Integer.parseInt(buffer[1].replace("\"", "").replace(">", ""));
+                    } else {
+                        String[] buffer = data.split("=");
+
+                        String cleared = buffer[1].replace("..", "").replace("\"", "");
+                        _tileSet = new TextureRegion(new Texture("." + cleared));
+                    }
                 }
             }
         }
         _tileWidth = results[0];
         _tileHeight = results[1];
         _tileCount = results[2];
+        _column = results[3];
         scanner.close();
     }
 
     private void loadTexture() {
+        _textures = new TextureRegion[_tileCount];
+        int x = 0;
+        int y = _tileHeight;
 
+        for (int i = 0; i < _tileCount; i++) {
+            _tileSet.setRegion(x, y, _tileWidth, _tileHeight);
+            _textures[i] = _tileSet;
+            if (y % _column == 0) {
+                y += _tileHeight;
+                x = 0;
+            }
+            x += _tileWidth;
+        }
     }
 
     private void loadImageInfo() {
-        String path = "maps/" + getXMLFile();
+        String path = getXMLFile();
 
+        System.out.println(path);
+        if (path == null)
+            return;
         try {
             Scanner scanner = new Scanner(new File(path));
 
@@ -97,12 +128,36 @@ public class TileSet {
 
     public void load() {
         loadImageInfo();
+        loadTexture();
     }
 
     public boolean create() {
         if (_tileSetImage == null)
-            return false;/*
-        TextureRegion[][] tmp = TextureRegion.split(_tileSetImage,)*/
+            return false;
+
+        load();
         return true;
+    }
+
+    public void draw() {
+        batch.begin();
+        int x = 0;
+        int y = 16;
+
+        float posX = 0;
+        float posY = 0x00f;
+        for (int i = 0; i < _tileCount; i++) {
+            _textures[i].setRegion(x, y, _tileWidth, _tileHeight);
+            batch.draw(_textures[i], posX, posY);
+            if (i > 0 && i % _column == 0) {
+                y += _tileHeight;
+                x = 0;
+                posX = 0;
+                posY += _tileHeight;
+            }
+            x += _tileWidth;
+            posX += _tileWidth;
+        }
+        batch.end();
     }
 }
