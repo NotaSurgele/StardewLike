@@ -12,7 +12,7 @@ public class GameScene extends Scene {
     @Override
     public void create() {
         _tileSet = new TileSet("maps/FirstMap.json");
-        _tileSet.load();
+        _tileSet.create();
         Core.addEntity(new Player(20, 20));
         load();
     }

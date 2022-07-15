@@ -8,28 +8,28 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class TileSet {
 
     int _tileWidth = 0;
     int _tileHeight = 0;
     int _tileCount = 0;
+    int _imageHeight = 0;
+    int _imageWidth = 0;
     int _column = 0;
 
-    Texture _tileSetImage = null;
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
     TextureRegion[] _textures = null;
     TextureRegion _tileSet = null;
-
     SpriteBatch batch = null;
+    HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
 
     public TileSet(String tileSetConfig) {
         _tileSetConfig = tileSetConfig;
         batch = new SpriteBatch();
+        _values = new HashMap<>();
     }
 
     private String getXMLFile() {
@@ -64,20 +64,21 @@ public class TileSet {
                 "tileheight=",
                 "tilecount=",
                 "columns=",
-                "source="
+                "source=",
+                "height="
         };
-        int[] results = new int[4];
+        int[] results = new int[5];
         int index = 0;
 
         while (scanner.hasNext()) {
             String data = scanner.next();
 
             for (String s : matchingElem) {
-                if (data.contains(s)) {
+                if (data.startsWith(s)) {
                     if (!s.contains("source=")) {
                         String[] buffer = data.split("=");
 
-                        results[index++] = Integer.parseInt(buffer[1].replace("\"", "").replace(">", ""));
+                        results[index++] = Integer.parseInt(buffer[1].replace("\"", "").replace(">", "").replace("/", ""));
                     } else {
                         String[] buffer = data.split("=");
 
@@ -91,6 +92,7 @@ public class TileSet {
         _tileHeight = results[1];
         _tileCount = results[2];
         _column = results[3];
+        _imageHeight = results[4];
         scanner.close();
     }
 
@@ -113,7 +115,6 @@ public class TileSet {
     private void loadImageInfo() {
         String path = getXMLFile();
 
-        System.out.println(path);
         if (path == null)
             return;
         try {
@@ -126,36 +127,46 @@ public class TileSet {
         }
     }
 
-    public void load() {
+    public TextureRegion getTextureRegionFromId(int id) {
+        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
+
+        _tileSet.setRegion(coord.getKey(), coord.getValue(), _tileWidth, _tileHeight);
+        return _tileSet;
+    }
+
+    private void load() {
         loadImageInfo();
         loadTexture();
     }
 
     public boolean create() {
-        if (_tileSetImage == null)
-            return false;
-
         load();
+        int x = 0;
+        int y = _imageHeight;
+
+        for (int i = 0; i < _tileCount; i++) {
+            _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
+            if (i % _column == 0) {
+                y -= _tileHeight;
+                x = 0;
+                _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
+            }
+            x += _tileWidth;
+        }
         return true;
     }
 
     public void draw() {
         batch.begin();
-        int x = 0;
-        int y = 16;
-
         float posX = 0;
-        float posY = 0x00f;
-        for (int i = 0; i < _tileCount; i++) {
-            _textures[i].setRegion(x, y, _tileWidth, _tileHeight);
-            batch.draw(_textures[i], posX, posY);
-            if (i > 0 && i % _column == 0) {
-                y += _tileHeight;
-                x = 0;
-                posX = 0;
+        float posY = 0;
+
+        for (int i = 0; i < _tileCount ; i++) {
+            if (i % _column == 0) {
                 posY += _tileHeight;
+                posX = 0;
             }
-            x += _tileWidth;
+            batch.draw(getTextureRegionFromId(i), posX, posY);
             posX += _tileWidth;
         }
         batch.end();
