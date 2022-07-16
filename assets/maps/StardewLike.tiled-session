@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "FirstMap.tmj",
+    "activeFile": "TilesetFloor.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -33,8 +33,8 @@
     ],
     "project": "StardewLike.tiled-project",
     "recentFiles": [
-        "TilesetFloor.tsx",
-        "FirstMap.tmj"
+        "FirstMap.tmj",
+        "TilesetFloor.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
