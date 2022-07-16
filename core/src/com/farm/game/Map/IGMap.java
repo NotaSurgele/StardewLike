@@ -3,7 +3,9 @@ package com.farm.game.Map;
 public interface IGMap {
 
     void create();
-    void load();
+    boolean load();
     void draw();
     void dispose();
+
+    String getMapName();
 }

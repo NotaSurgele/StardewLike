@@ -96,6 +96,14 @@ public class TileSet {
         scanner.close();
     }
 
+    public int getTileWidth() {
+        return _tileWidth;
+    }
+
+    public int getTileHeight() {
+        return _tileHeight;
+    }
+
     private void loadTexture() {
         _textures = new TextureRegion[_tileCount];
         int x = 0;
