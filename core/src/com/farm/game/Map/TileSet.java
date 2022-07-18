@@ -21,7 +21,7 @@ public class TileSet {
 
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
-    TextureRegion[] _textures = null;
+    Texture _textures = null;
     TextureRegion _tileSet = null;
     SpriteBatch batch = null;
     HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
@@ -84,6 +84,7 @@ public class TileSet {
 
                         String cleared = buffer[1].replace("..", "").replace("\"", "");
                         _tileSet = new TextureRegion(new Texture("." + cleared));
+                        _textures = _tileSet.getTexture();
                     }
                 }
             }
@@ -105,13 +106,11 @@ public class TileSet {
     }
 
     private void loadTexture() {
-        _textures = new TextureRegion[_tileCount];
         int x = 0;
         int y = _tileHeight;
 
         for (int i = 0; i < _tileCount; i++) {
             _tileSet.setRegion(x, y, _tileWidth, _tileHeight);
-            _textures[i] = _tileSet;
             if (y % _column == 0) {
                 y += _tileHeight;
                 x = 0;
@@ -136,7 +135,7 @@ public class TileSet {
     }
 
     public TextureRegion getTextureRegionFromId(int id) {
-        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
+        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id - 23);
 
         _tileSet.setRegion(coord.getKey(), coord.getValue(), _tileWidth, _tileHeight);
         return _tileSet;
@@ -150,16 +149,19 @@ public class TileSet {
     public boolean create() {
         load();
         int x = 0;
-        int y = _imageHeight;
+        int y = 0;
 
         for (int i = 0; i < _tileCount; i++) {
             _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             if (i % _column == 0) {
-                y -= _tileHeight;
+                y += _tileHeight;
                 x = 0;
                 _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             }
             x += _tileWidth;
+        }
+        for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> it : _values.entrySet()) {
+            System.out.println(it.getKey() + " " + it.getValue());
         }
         return true;
     }
