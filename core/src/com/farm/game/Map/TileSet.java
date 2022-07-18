@@ -21,7 +21,6 @@ public class TileSet {
 
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
-    Texture _textures = null;
     TextureRegion _tileSet = null;
     SpriteBatch batch = null;
     HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
@@ -75,16 +74,15 @@ public class TileSet {
 
             for (String s : matchingElem) {
                 if (data.startsWith(s)) {
+                    String[] buffer = data.split("=");
+
                     if (!s.contains("source=")) {
-                        String[] buffer = data.split("=");
 
                         results[index++] = Integer.parseInt(buffer[1].replace("\"", "").replace(">", "").replace("/", ""));
                     } else {
-                        String[] buffer = data.split("=");
-
                         String cleared = buffer[1].replace("..", "").replace("\"", "");
+
                         _tileSet = new TextureRegion(new Texture("." + cleared));
-                        _textures = _tileSet.getTexture();
                     }
                 }
             }
@@ -103,20 +101,6 @@ public class TileSet {
 
     public int getTileHeight() {
         return _tileHeight;
-    }
-
-    private void loadTexture() {
-        int x = 0;
-        int y = _tileHeight;
-
-        for (int i = 0; i < _tileCount; i++) {
-            _tileSet.setRegion(x, y, _tileWidth, _tileHeight);
-            if (y % _column == 0) {
-                y += _tileHeight;
-                x = 0;
-            }
-            x += _tileWidth;
-        }
     }
 
     private void loadImageInfo() {
@@ -143,7 +127,6 @@ public class TileSet {
 
     private void load() {
         loadImageInfo();
-        loadTexture();
     }
 
     public boolean create() {
@@ -159,9 +142,6 @@ public class TileSet {
                 _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             }
             x += _tileWidth;
-        }
-        for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> it : _values.entrySet()) {
-            System.out.println(it.getKey() + " " + it.getValue());
         }
         return true;
     }
