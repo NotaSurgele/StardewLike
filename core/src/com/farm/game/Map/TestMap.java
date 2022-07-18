@@ -28,7 +28,7 @@ public class TestMap extends GMap {
         int tileHeight = _ground.getTileHeight();
 
         for (int[][] layer : layersArray) {
-            for (int i = 0; i < layer.length; i++) {
+            for (int i = layer.length - 1; i >= 0; i--) {
                 for (int j = 0; j < layer[i].length; j++) {
                     TextureRegion texture = _ground.getTextureRegionFromId(layer[i][j]);
 
