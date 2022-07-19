@@ -119,7 +119,7 @@ public class TileSet {
     }
 
     public TextureRegion getTextureRegionFromId(int id) {
-        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id - 23);
+        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id - 1);
 
         _tileSet.setRegion(coord.getKey(), coord.getValue(), _tileWidth, _tileHeight);
         return _tileSet;
@@ -134,14 +134,17 @@ public class TileSet {
         int x = 0;
         int y = 0;
 
-        for (int i = 0; i < _tileCount; i++) {
-            _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
+        for (int i = 1; i <= _tileCount; i++) {
             if (i % _column == 0) {
                 y += _tileHeight;
                 x = 0;
-                _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
+                //_values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             }
+            _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             x += _tileWidth;
+        }
+        for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> entry : _values.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
         }
         return true;
     }
