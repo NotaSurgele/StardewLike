@@ -140,14 +140,10 @@ public class MapData {
             if (x == _imageWidth) {
                 y += _tileHeight;
                 x = 0;
-                //_values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             }
             _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             x += _tileWidth;
         }
-        /*for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> entry : _values.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }*/
         return true;
     }
 
