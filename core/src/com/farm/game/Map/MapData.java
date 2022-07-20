@@ -19,6 +19,8 @@ public class MapData {
     int _imageWidth = 0;
     int _column = 0;
 
+    LayerData _ldata = null;
+
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
     TextureRegion _tileSet = null;
@@ -88,21 +90,16 @@ public class MapData {
                 }
             }
         }
-        _tileWidth = results[0];
-        _tileHeight = results[1];
-        _tileCount = results[2];
-        _column = results[3];
-        _imageWidth = results[4];
-        _imageHeight = results[5];
+        _ldata = new LayerData(results[0], results[1], results[2], results[3], results[4], results[5]);
         scanner.close();
     }
 
     public int getTileWidth() {
-        return _tileWidth;
+        return _ldata.tileWidth;
     }
 
     public int getTileHeight() {
-        return _tileHeight;
+        return _ldata.tileHeight;
     }
 
     private void loadImageInfo() {
@@ -123,7 +120,7 @@ public class MapData {
     public TextureRegion getTextureRegionFromId(int id) {
         AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
 
-        _tileSet.setRegion(coord.getKey(), coord.getValue(), _tileWidth, _tileHeight);
+        _tileSet.setRegion(coord.getKey(), coord.getValue(), _ldata.tileWidth, _ldata.tileHeight);
         return _tileSet;
     }
 
@@ -136,13 +133,13 @@ public class MapData {
         int x = 0;
         int y = 0;
 
-        for (int i = 1; i <= _tileCount; i++) {
-            if (x == _imageWidth) {
-                y += _tileHeight;
+        for (int i = 1; i <= _ldata.tileCount; i++) {
+            if (x == _ldata.imageWidth) {
+                y += _ldata.tileHeight;
                 x = 0;
             }
             _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
-            x += _tileWidth;
+            x += _ldata.tileWidth;
         }
         return true;
     }
