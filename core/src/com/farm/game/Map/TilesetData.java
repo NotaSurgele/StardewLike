@@ -25,8 +25,6 @@ public class TilesetData {
     }
 
     public boolean contain(int oldTileCount, int id) {
-        int value = tileCount;
-        System.out.println(oldTileCount + " " + value + " " + id);
         return id >= oldTileCount && id <= tileCount;
     }
 }

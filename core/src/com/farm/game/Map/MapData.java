@@ -128,7 +128,7 @@ public class MapData {
         _tileSet.clear();
     }
 
-    public TextureRegion getTextureRegionFromId(int id) {
+    public TextureRegion getTileTextureByID(int id) {
         AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
         int old = 1;
         int count = 0;
@@ -179,7 +179,7 @@ public class MapData {
                     posY += data.tileHeight;
                     posX = 0;
                 }
-                batch.draw(getTextureRegionFromId(i), posX, posY);
+                batch.draw(getTileTextureByID(i), posX, posY);
                 posX += data.tileWidth;
             }
         }

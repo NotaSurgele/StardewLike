@@ -24,13 +24,14 @@ public class TestMap extends GMap {
         batch.begin();
         float x = 0;
         float y = 0;
+
         int tileWidth = _ground.getTileWidth();
         int tileHeight = _ground.getTileHeight();
 
         for (int[][] layer : layersArray) {
             for (int i = layer.length - 1; i >= 0; i--) {
                 for (int j = 0; j < layer[i].length; j++) {
-                    TextureRegion texture = _ground.getTextureRegionFromId(layer[i][j]);
+                    TextureRegion texture = _ground.getTileTextureByID(layer[i][j]);
 
                     batch.draw(texture, x, y);
                     x += tileWidth;
@@ -42,7 +43,6 @@ public class TestMap extends GMap {
             y = 0;
         }
         batch.end();
-        /*_ground.draw();*/
     }
 
     @Override
