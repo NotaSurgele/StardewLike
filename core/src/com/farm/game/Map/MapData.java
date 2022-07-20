@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
-public class TileSet {
+public class MapData {
 
     int _tileWidth = 0;
     int _tileHeight = 0;
@@ -25,7 +25,7 @@ public class TileSet {
     SpriteBatch batch = null;
     HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
 
-    public TileSet(String tileSetConfig) {
+    public MapData(String tileSetConfig) {
         _tileSetConfig = tileSetConfig;
         batch = new SpriteBatch();
         _values = new HashMap<>();
@@ -64,9 +64,10 @@ public class TileSet {
                 "tilecount=",
                 "columns=",
                 "source=",
-                "height="
+                "height=",
+                "width="
         };
-        int[] results = new int[5];
+        int[] results = new int[6];
         int index = 0;
 
         while (scanner.hasNext()) {
@@ -91,7 +92,8 @@ public class TileSet {
         _tileHeight = results[1];
         _tileCount = results[2];
         _column = results[3];
-        _imageHeight = results[4];
+        _imageWidth = results[4];
+        _imageHeight = results[5];
         scanner.close();
     }
 
@@ -119,7 +121,7 @@ public class TileSet {
     }
 
     public TextureRegion getTextureRegionFromId(int id) {
-        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id - 1);
+        AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
 
         _tileSet.setRegion(coord.getKey(), coord.getValue(), _tileWidth, _tileHeight);
         return _tileSet;
@@ -135,7 +137,7 @@ public class TileSet {
         int y = 0;
 
         for (int i = 1; i <= _tileCount; i++) {
-            if (i % _column == 0) {
+            if (x == _imageWidth) {
                 y += _tileHeight;
                 x = 0;
                 //_values.put(i, new AbstractMap.SimpleEntry<>(x, y));
@@ -143,9 +145,9 @@ public class TileSet {
             _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
             x += _tileWidth;
         }
-        for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> entry : _values.entrySet()) {
+        /*for (HashMap.Entry<Integer, AbstractMap.SimpleEntry<Integer, Integer>> entry : _values.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
-        }
+        }*/
         return true;
     }
 

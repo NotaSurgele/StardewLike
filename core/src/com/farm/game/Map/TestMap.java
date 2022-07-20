@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TestMap extends GMap {
 
-    TileSet _ground = null;
+    MapData _ground = null;
     SpriteBatch batch = null;
 
     public TestMap(String configFile, String name) {
@@ -14,7 +14,7 @@ public class TestMap extends GMap {
 
     @Override
     public void create() {
-        _ground = new TileSet("maps/FirstMap.json");
+        _ground = new MapData("maps/FirstMap.json");
         _ground.create();
         batch = new SpriteBatch();
     }
