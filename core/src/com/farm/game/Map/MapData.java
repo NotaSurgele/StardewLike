@@ -11,10 +11,11 @@ import java.io.FileReader;
 import java.util.*;
 
 public class MapData {
-    TilesetData _ldata = null;
+    ArrayList<TilesetData> _tilesetData = null;
+    ArrayList<Integer> _gid = null;
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
-    TextureRegion _tileSet = null;
+    ArrayList<TextureRegion> _tileSet = null;
     SpriteBatch batch = null;
     HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
 
@@ -22,10 +23,15 @@ public class MapData {
         _tileSetConfig = tileSetConfig;
         batch = new SpriteBatch();
         _values = new HashMap<>();
+        _tilesetData = new ArrayList<>();
+        _gid = new ArrayList<>();
+        _tileSet = new ArrayList<>();
     }
 
-    private String getXMLFile() {
+    private ArrayList<String> getXMLFile() {
         try {
+            ArrayList<String> data = new ArrayList<>();
+
             _jsonFile = (JSONObject) new JSONParser().parse(new FileReader(_tileSetConfig));
             JSONArray map = ((JSONArray) _jsonFile.get("tilesets"));
             Iterator it = map.iterator();
@@ -39,17 +45,24 @@ public class MapData {
                     if (value.contains("source")) {
                         String[] infos = value.split("=");
 
-                        return infos[1];
+                        data.add(infos[1]);
+                        break;
+                    }
+                    if (value.contains("firstgid")) {
+                        String[] gid = value.split("=");
+
+                        _gid.add(Integer.parseInt(gid[1]));
                     }
                 }
             }
+            return data;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
-    private void parseXML(Scanner scanner) {
+    private void parseXML(Scanner scanner, int currentTileSet, int oldTc) {
 
         String[] matchingElem = {
                 "tilewidth=",
@@ -76,43 +89,59 @@ public class MapData {
                     } else {
                         String cleared = buffer[1].replace("..", "").replace("\"", "");
 
-                        _tileSet = new TextureRegion(new Texture("." + cleared));
+                        _tileSet.add(new TextureRegion(new Texture("." + cleared)));
                     }
                 }
             }
         }
-        _ldata = new TilesetData(results[0], results[1], results[2], results[3], results[4], results[5]);
-        scanner.close();
+        _tilesetData.add(new TilesetData(results[0], results[1], oldTc + results[2], results[3], results[4], results[5], _gid.get(currentTileSet), _tileSet.get(currentTileSet)));
     }
 
     public int getTileWidth() {
-        return _ldata.tileWidth;
+        return _tilesetData.get(0).tileWidth;
     }
 
     public int getTileHeight() {
-        return _ldata.tileHeight;
+        return _tilesetData.get(0).tileHeight;
     }
 
     private void loadImageInfo() {
-        String path = getXMLFile();
+        ArrayList<String> path = getXMLFile();
+        int index = 0;
+        int oldTc = 0;
 
         if (path == null)
             return;
-        try {
-            Scanner scanner = new Scanner(new File(path));
+        for (String s : path) {
+            try {
+                Scanner scanner = new Scanner(new File(s));
 
-            parseXML(scanner);
+                parseXML(scanner, index, oldTc);
+                scanner.close();
+                oldTc = _tilesetData.get(index).tileCount;
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            index++;
         }
+        _tileSet.clear();
     }
 
     public TextureRegion getTextureRegionFromId(int id) {
         AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
+        int old = 1;
+        int count = 0;
 
-        _tileSet.setRegion(coord.getKey(), coord.getValue(), _ldata.tileWidth, _ldata.tileHeight);
-        return _tileSet;
+        for (TilesetData data : _tilesetData) {
+
+            if (data.contain(old, id)) {
+                data.tileSet.setRegion(coord.getKey(), coord.getValue(), data.tileWidth, data.tileHeight);
+                return data.tileSet;
+            }
+            old = data.tileCount;
+        }
+        return null;
     }
 
     private void load() {
@@ -121,32 +150,38 @@ public class MapData {
 
     public boolean create() {
         load();
-        int x = 0;
-        int y = 0;
+        for (TilesetData data : _tilesetData) {
 
-        for (int i = 1; i <= _ldata.tileCount; i++) {
-            if (x == _ldata.imageWidth) {
-                y += _ldata.tileHeight;
-                x = 0;
+            int x = 0;
+            int y = 0;
+
+            for (int i = data.gid; i <= data.tileCount; i++) {
+                if (x == data.imageWidth) {
+                    y += data.tileHeight;
+                    x = 0;
+                }
+                _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
+                x += data.tileWidth;
             }
-            _values.put(i, new AbstractMap.SimpleEntry<>(x, y));
-            x += _ldata.tileWidth;
         }
         return true;
     }
 
     public void draw() {
         batch.begin();
-        float posX = 0;
-        float posY = 0;
+        for (TilesetData data : _tilesetData) {
 
-        for (int i = 0; i < _ldata.tileCount ; i++) {
-            if (i % _ldata.column == 0) {
-                posY += _ldata.tileHeight;
-                posX = 0;
+            float posX = 0;
+            float posY = 0;
+
+            for (int i = 0; i < data.tileCount ; i++) {
+                if (i % data.column == 0) {
+                    posY += data.tileHeight;
+                    posX = 0;
+                }
+                batch.draw(getTextureRegionFromId(i), posX, posY);
+                posX += data.tileWidth;
             }
-            batch.draw(getTextureRegionFromId(i), posX, posY);
-            posX += _ldata.tileWidth;
         }
         batch.end();
     }
