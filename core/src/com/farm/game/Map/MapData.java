@@ -11,16 +11,7 @@ import java.io.FileReader;
 import java.util.*;
 
 public class MapData {
-
-    int _tileWidth = 0;
-    int _tileHeight = 0;
-    int _tileCount = 0;
-    int _imageHeight = 0;
-    int _imageWidth = 0;
-    int _column = 0;
-
     TilesetData _ldata = null;
-
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
     TextureRegion _tileSet = null;
@@ -149,13 +140,13 @@ public class MapData {
         float posX = 0;
         float posY = 0;
 
-        for (int i = 0; i < _tileCount ; i++) {
-            if (i % _column == 0) {
-                posY += _tileHeight;
+        for (int i = 0; i < _ldata.tileCount ; i++) {
+            if (i % _ldata.column == 0) {
+                posY += _ldata.tileHeight;
                 posX = 0;
             }
             batch.draw(getTextureRegionFromId(i), posX, posY);
-            posX += _tileWidth;
+            posX += _ldata.tileWidth;
         }
         batch.end();
     }
