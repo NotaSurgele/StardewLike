@@ -19,7 +19,7 @@ public class MapData {
     int _imageWidth = 0;
     int _column = 0;
 
-    LayerData _ldata = null;
+    TilesetData _ldata = null;
 
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
@@ -90,7 +90,7 @@ public class MapData {
                 }
             }
         }
-        _ldata = new LayerData(results[0], results[1], results[2], results[3], results[4], results[5]);
+        _ldata = new TilesetData(results[0], results[1], results[2], results[3], results[4], results[5]);
         scanner.close();
     }
 
