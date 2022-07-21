@@ -10,7 +10,7 @@ public class GameScene extends Scene {
 
     @Override
     public void create() {
-        map = new TestMap("maps/test.json", "beggining");
+        map = new TestMap("maps/FirstMap.json", "beggining");
 
         map.create();
         Core.addEntity(new Player(20, 20));

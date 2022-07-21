@@ -14,7 +14,7 @@ public class TestMap extends GMap {
 
     @Override
     public void create() {
-        _ground = new MapData("maps/test.json");
+        _ground = new MapData(_config);
         _ground.create();
         batch = new SpriteBatch();
     }
