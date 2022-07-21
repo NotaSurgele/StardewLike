@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"FirstMap.json"
-        }
-    },
  "height":20,
  "infinite":false,
  "layers":[
@@ -81,15 +73,15 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"TilesetFloor.tsx"
+         "source":"maps/TilesetFloor.tsx"
         }, 
         {
          "firstgid":573,
-         "source":"TilesetElement.tsx"
+         "source":"maps/TilesetElement.tsx"
         }, 
         {
          "firstgid":813,
-         "source":"TilesetDungeon.tsx"
+         "source":"maps/TilesetDungeon.tsx"
         }],
  "tilewidth":16,
  "type":"map",

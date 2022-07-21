@@ -12,10 +12,10 @@ import java.util.*;
 
 public class MapData {
     ArrayList<TilesetData> _tilesetData = null;
+    ArrayList<TextureRegion> _tileSet = null;
     ArrayList<Integer> _gid = null;
     String _tileSetConfig = null;
     JSONObject _jsonFile = null;
-    ArrayList<TextureRegion> _tileSet = null;
     SpriteBatch batch = null;
     HashMap<Integer, AbstractMap.SimpleEntry<Integer, Integer>> _values = null;
 
@@ -126,6 +126,7 @@ public class MapData {
             index++;
         }
         _tileSet.clear();
+        _gid.clear();
     }
 
     public TextureRegion getTileTextureByID(int id) {

@@ -13,14 +13,14 @@ public class TilesetData {
     public int gid = 0;
     public TextureRegion tileSet = null;
 
-    public TilesetData(int tw, int th, int tc, int iHeight, int iWidth, int c, int startid, TextureRegion set) {
+    public TilesetData(int tw, int th, int tc, int iHeight, int iWidth, int c, int startId, TextureRegion set) {
         tileWidth = tw;
         tileHeight = th;
         tileCount = tc;
         imageHeight = iHeight;
         imageWidth = iWidth;
         column = c;
-        gid = startid;
+        gid = startId;
         tileSet = set;
     }
 

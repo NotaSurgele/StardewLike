@@ -49,20 +49,22 @@ public abstract class GMap implements IGMap {
             JSONArray layers = ((JSONArray) jsonFile.get("layers"));
             Iterator it = layers.iterator();
 
-            JSONObject layerData = (JSONObject) it.next();
-            AbstractMap.SimpleEntry<Integer, Integer> layerSize = retrieveLayerSize(layerData);
-            JSONArray layerJSON = (JSONArray) layerData.get("data");
-            Iterator it2 = layerJSON.iterator();
-            int[][] layer = new int[layerSize.getValue()][layerSize.getKey()];
+            for ( ; it.hasNext(); ) {
+                JSONObject layerData = (JSONObject) it.next();
+                AbstractMap.SimpleEntry<Integer, Integer> layerSize = retrieveLayerSize(layerData);
+                JSONArray layerJSON = (JSONArray) layerData.get("data");
+                Iterator it2 = layerJSON.iterator();
+                int[][] layer = new int[layerSize.getValue()][layerSize.getKey()];
 
-            for (int i = 0, j = 0 ; it2.hasNext(); ) {
-                if (j == layerSize.getKey()) {
-                    j = 0;
-                    i++;
+                for (int i = 0, j = 0 ; it2.hasNext(); ) {
+                    if (j == layerSize.getKey()) {
+                        j = 0;
+                        i++;
+                    }
+                    layer[i][j++] = Integer.parseInt(String.valueOf(it2.next()));
                 }
-                layer[i][j++] = Integer.parseInt(String.valueOf(it2.next()));
+                layersArray.add(layer);
             }
-            layersArray.add(layer);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

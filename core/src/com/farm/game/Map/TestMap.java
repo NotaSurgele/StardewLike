@@ -14,7 +14,7 @@ public class TestMap extends GMap {
 
     @Override
     public void create() {
-        _ground = new MapData("maps/FirstMap.json");
+        _ground = new MapData("maps/test.json");
         _ground.create();
         batch = new SpriteBatch();
     }
@@ -33,7 +33,8 @@ public class TestMap extends GMap {
                 for (int j = 0; j < layer[i].length; j++) {
                     TextureRegion texture = _ground.getTileTextureByID(layer[i][j]);
 
-                    batch.draw(texture, x, y);
+                    if (texture != null)
+                        batch.draw(texture, x, y);
                     x += tileWidth;
                 }
                 x = 0;
