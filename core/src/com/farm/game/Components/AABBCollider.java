@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.farm.game.Entity.Entity;
 import com.farm.game.Game.Core;
+import com.farm.game.Map.CollidingCell;
 
 public class AABBCollider extends Component {
 
@@ -33,10 +34,12 @@ public class AABBCollider extends Component {
         }
         for (Entity e : Core.getInstance().currentScene().getSceneEntities()) {
             if (e != _entity) {
-                Rectangle r = new Rectangle(e.getPosition().x, e.getPosition().y, e.getSize().x, e.getSize().y);
+                if (e.getComponent("Collider") != null) {
+                    Rectangle r = new Rectangle(e.getPosition().x, e.getPosition().y, e.getSize().x, e.getSize().y);
 
-                if (_hitbox.overlaps(r))
-                    _entity.setVelocity(0, 0);
+                    if (_hitbox.overlaps(r))
+                        _entity.setVelocity(0, 0);
+                }
             }
         }
     }

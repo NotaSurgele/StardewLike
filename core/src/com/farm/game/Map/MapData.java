@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class MapData {
@@ -62,6 +63,21 @@ public class MapData {
         return null;
     }
 
+    private int parseCollider(String data, int id, ArrayList<Integer> collidingMap)
+    {
+        if (data.contains("id="))
+            return Integer.parseInt(data.split("\"")[1]);
+        if (id != -1 && data.contains("value=")) {
+            String[] buffer = data.split("\"");
+
+            if (Integer.parseInt(data.split("\"")[1]) == 1) {
+                collidingMap.add(id + 1);
+                return -1;
+            }
+        }
+        return id;
+    }
+
     private void parseXML(Scanner scanner, int currentTileSet, int oldTc) {
 
         String[] matchingElem = {
@@ -71,20 +87,22 @@ public class MapData {
                 "columns=",
                 "source=",
                 "height=",
-                "width="
+                "width=",
         };
         int[] results = new int[6];
         int index = 0;
+        int id = -1;
+        ArrayList<Integer> collidingMap = new ArrayList<>();
 
         while (scanner.hasNext()) {
             String data = scanner.next();
 
+            id = parseCollider(data, id, collidingMap);
             for (String s : matchingElem) {
                 if (data.startsWith(s)) {
                     String[] buffer = data.split("=");
 
                     if (!s.contains("source=")) {
-
                         results[index++] = Integer.parseInt(buffer[1].replace("\"", "").replace(">", "").replace("/", ""));
                     } else {
                         String cleared = buffer[1].replace("..", "").replace("\"", "");
@@ -94,7 +112,7 @@ public class MapData {
                 }
             }
         }
-        _tilesetData.add(new TilesetData(results[0], results[1], oldTc + results[2], results[3], results[4], results[5], _gid.get(currentTileSet), _tileSet.get(currentTileSet)));
+        _tilesetData.add(new TilesetData(results[0], results[1], oldTc + results[2], results[3], results[4], results[5], _gid.get(currentTileSet), _tileSet.get(currentTileSet)).setCollidingCells(collidingMap));
     }
 
     public int getTileWidth() {
@@ -132,7 +150,6 @@ public class MapData {
     public TextureRegion getTileTextureByID(int id) {
         AbstractMap.SimpleEntry<Integer, Integer> coord = _values.get(id);
         int old = 1;
-        int count = 0;
 
         for (TilesetData data : _tilesetData) {
 
@@ -147,6 +164,20 @@ public class MapData {
 
     private void load() {
         loadImageInfo();
+    }
+
+    public boolean isCollidingCells(int id) {
+        int old = 1;
+        int test = 0;
+
+        for (TilesetData data : _tilesetData) {
+
+            if (data.contain(old, id)) {
+                return data.collidingCells.contains(id - old);
+            }
+            old = data.tileCount;
+        }
+        return false;
     }
 
     public boolean create() {

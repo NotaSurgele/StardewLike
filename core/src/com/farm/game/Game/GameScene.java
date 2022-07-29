@@ -13,13 +13,13 @@ public class GameScene extends Scene {
         map = new TestMap("maps/FirstMap.json", "beggining");
 
         map.create();
+        map.createLayer();
         Core.addEntity(new Player(20, 20));
         load();
     }
 
     @Override
     public void load() {
-        map.load();
         for (Entity e : _entities)
             e.create();
     }

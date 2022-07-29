@@ -1,20 +1,14 @@
 package com.farm.game.Game;
 
-import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.farm.game.Components.AABBCollider;
-import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
 import com.farm.game.Input.Input;
 import com.farm.game.StateManager.StateManager;
 import com.farm.game.Time.Time;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Player extends Entity {
 
@@ -30,13 +24,14 @@ public class Player extends Entity {
     }
 
     @Override
-    public void create() {
+    public Entity create() {
         idle = Animator.initializeAnimation(idle, "knight_idle_spritesheet.png", 6, 1, .07f);
         this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).setSize(new Vector2(50, 50));
         batch = new SpriteBatch();
         stateManager = new StateManager();
         createStates();
         this.addComponent(new AABBCollider(this, "Collider"));
+        return null;
     }
 
     private void setComponent() {

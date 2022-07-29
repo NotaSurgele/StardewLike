@@ -7,7 +7,6 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public abstract class GMap implements IGMap {
@@ -43,7 +42,7 @@ public abstract class GMap implements IGMap {
     }
 
     @Override final
-    public boolean load() {
+    public void createLayer() {
         try {
             JSONObject jsonFile = (JSONObject) new JSONParser().parse(new FileReader(_config));
             JSONArray layers = ((JSONArray) jsonFile.get("layers"));
@@ -67,9 +66,7 @@ public abstract class GMap implements IGMap {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
         }
-        return true;
     }
 
     @Override

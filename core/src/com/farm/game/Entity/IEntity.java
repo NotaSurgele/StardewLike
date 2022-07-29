@@ -2,7 +2,6 @@ package com.farm.game.Entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.farm.game.Components.Component;
@@ -33,7 +32,7 @@ public interface IEntity {
 
     boolean removeComponent(Component component);
 
-    void create();
+    Entity create();
     void draw();
     void dispose();
 }

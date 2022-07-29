@@ -3,7 +3,7 @@ package com.farm.game.Map;
 public interface IGMap {
 
     void create();
-    boolean load();
+    void createLayer();
     void draw();
     void dispose();
 

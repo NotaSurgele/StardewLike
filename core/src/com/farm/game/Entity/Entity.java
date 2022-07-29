@@ -14,7 +14,7 @@ public abstract class Entity implements IEntity {
     protected Texture _texture = null;
     protected Vector2 _velocity = new Vector2();
     protected Vector2 _position = new Vector2();
-    protected Vector2 _size = null;
+    protected Vector2 _size = new Vector2();
     protected String _name = null;
     protected ArrayList<Component> _components = new ArrayList<>();
 
@@ -140,7 +140,7 @@ public abstract class Entity implements IEntity {
     }
 
     @Override
-    public abstract void create();
+    public abstract Entity create();
 
     @Override
     public abstract void draw();
