@@ -1,5 +1,7 @@
 package com.farm.game.SceneManager;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.farm.game.Entity.Entity;
 
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 public abstract class Scene implements IScene {
 
     protected static final ArrayList<Entity> _entities = new ArrayList<>();
+    public SpriteBatch batch = null;
 
     @Override final
     public boolean addEntity(Entity entity) {
@@ -28,6 +31,7 @@ public abstract class Scene implements IScene {
     public ArrayList<Entity> getSceneEntities() {
         return _entities;
     }
+    public OrthographicCamera camera = new OrthographicCamera();
 
     @Override
     public abstract void load();

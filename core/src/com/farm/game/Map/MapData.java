@@ -112,6 +112,7 @@ public class MapData {
                 }
             }
         }
+        System.out.println("hello wolrd");
         _tilesetData.add(new TilesetData(results[0], results[1], oldTc + results[2], results[3], results[4], results[5], _gid.get(currentTileSet), _tileSet.get(currentTileSet)).setCollidingCells(collidingMap));
     }
 

@@ -3,17 +3,18 @@ package com.farm.game.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.farm.game.Components.AABBCollider;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
 import com.farm.game.Input.Input;
+import com.farm.game.StateManager.IState;
 import com.farm.game.StateManager.StateManager;
 import com.farm.game.Time.Time;
 
 public class Player extends Entity {
 
     Animator idle;
-    SpriteBatch batch;
     StateManager stateManager;
     float stateTime = 0;
     float speed = 200f;
@@ -27,10 +28,9 @@ public class Player extends Entity {
     public Entity create() {
         idle = Animator.initializeAnimation(idle, "knight_idle_spritesheet.png", 6, 1, .07f);
         this.setSprite(new Sprite()).setTexture(idle.getAnimationFrames()[0]).setSize(new Vector2(50, 50));
-        batch = new SpriteBatch();
         stateManager = new StateManager();
         createStates();
-        this.addComponent(new AABBCollider(this, "Collider"));
+        this.addComponent(new AABBCollider(this));
         return null;
     }
 
@@ -69,6 +69,7 @@ public class Player extends Entity {
         _position.x += _velocity.x * speed * Time.deltaTime;
         _position.y += _velocity.y * speed * Time.deltaTime;
 
+        Core.getInstance().currentScene().camera.position.lerp(new Vector3(_position.x, _position.y, 0), 3f * Time.deltaTime);
         handleInput();
         setPosition(_position);
     }
@@ -76,13 +77,10 @@ public class Player extends Entity {
     @Override
     public void draw() {
         update();
-        batch.begin();
-        _sprite.draw(batch);
-        batch.end();
+        _sprite.draw(Core.getInstance().currentScene().batch);
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
     }
 }

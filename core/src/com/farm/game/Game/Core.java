@@ -1,5 +1,8 @@
 package com.farm.game.Game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.farm.game.Components.Component;
 import com.farm.game.Entity.Entity;
 import com.farm.game.Input.Input;
@@ -16,7 +19,6 @@ public class Core {
     public static int DEBUG = 0;
 
     private Core() {
-
     }
 
     public static Core getInstance() {

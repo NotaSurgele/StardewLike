@@ -9,9 +9,8 @@ public abstract class Component implements IComponent {
 
     private Component() {};
 
-    public Component(Entity entity, String name) {
+    public Component(Entity entity) {
         _entity = entity;
-        _name = name;
     }
 
     @Override final

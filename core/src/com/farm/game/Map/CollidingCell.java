@@ -14,7 +14,7 @@ public class CollidingCell extends Entity {
 
     @Override
     public Entity create() {
-        this.addComponent(new AABBCollider(this, "Collider"));
+        this.addComponent(new AABBCollider(this));
         return this;
     }
 
