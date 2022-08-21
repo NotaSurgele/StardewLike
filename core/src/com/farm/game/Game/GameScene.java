@@ -1,7 +1,6 @@
 package com.farm.game.Game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.farm.game.Entity.Entity;
 import com.farm.game.Map.TestMap;
@@ -14,7 +13,7 @@ public class GameScene extends Scene {
     @Override
     public void create() {
         map = new TestMap("maps/FirstMap.json", "beginning");
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         map.createLayer();
         map.create();
@@ -30,8 +29,8 @@ public class GameScene extends Scene {
 
     @Override
     public void render() {
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+        mainCamera.update();
+        batch.setProjectionMatrix(mainCamera.combined);
         batch.begin();
         map.draw();
         for (Entity e : _entities)

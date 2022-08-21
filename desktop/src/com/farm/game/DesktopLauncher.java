@@ -8,7 +8,7 @@ import com.farm.game.FarmValley;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
+		config.setForegroundFPS(1000);
 		new Lwjgl3Application(new FarmValley(), config);
 	}
 }

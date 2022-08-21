@@ -31,7 +31,7 @@ public abstract class Scene implements IScene {
     public ArrayList<Entity> getSceneEntities() {
         return _entities;
     }
-    public OrthographicCamera camera = new OrthographicCamera();
+    public OrthographicCamera mainCamera = new OrthographicCamera();
 
     @Override
     public abstract void load();

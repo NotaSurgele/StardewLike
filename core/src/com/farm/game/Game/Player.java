@@ -1,14 +1,12 @@
 package com.farm.game.Game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.farm.game.Components.AABBCollider;
 import com.farm.game.Entity.Entity;
 import com.farm.game.SpriteHandler.Animator;
 import com.farm.game.Input.Input;
-import com.farm.game.StateManager.IState;
 import com.farm.game.StateManager.StateManager;
 import com.farm.game.Time.Time;
 
@@ -69,7 +67,7 @@ public class Player extends Entity {
         _position.x += _velocity.x * speed * Time.deltaTime;
         _position.y += _velocity.y * speed * Time.deltaTime;
 
-        Core.getInstance().currentScene().camera.position.lerp(new Vector3(_position.x, _position.y, 0), 3f * Time.deltaTime);
+        Core.getInstance().currentScene().mainCamera.position.lerp(new Vector3(_position.x, _position.y, 0), 3f * Time.deltaTime);
         handleInput();
         setPosition(_position);
     }

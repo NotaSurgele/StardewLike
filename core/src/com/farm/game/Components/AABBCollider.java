@@ -1,11 +1,11 @@
 package com.farm.game.Components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.farm.game.Entity.Entity;
 import com.farm.game.Game.Core;
-import com.farm.game.Map.CollidingCell;
 
 public class AABBCollider extends Component {
 
@@ -39,6 +39,7 @@ public class AABBCollider extends Component {
         }
         if (Core.DEBUG == 1) {
             shape.begin(ShapeRenderer.ShapeType.Line);
+            shape.setProjectionMatrix(Core.getInstance().currentScene().mainCamera.combined);
             shape.setColor(Color.RED);
             shape.rect(_hitbox.x, _hitbox.y, _hitbox.width, _hitbox.height);
             shape.end();
