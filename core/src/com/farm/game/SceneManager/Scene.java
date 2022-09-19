@@ -3,6 +3,7 @@ package com.farm.game.SceneManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.farm.game.Entity.Entity;
+import com.farm.game.System.Camera;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public abstract class Scene implements IScene {
     public ArrayList<Entity> getSceneEntities() {
         return _entities;
     }
-    public OrthographicCamera mainCamera = new OrthographicCamera();
+    public Camera mainCamera = new Camera();
 
     @Override
     public abstract void load();

@@ -1,6 +1,7 @@
 package com.farm.game.Game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.farm.game.Components.AABBCollider;
@@ -67,15 +68,17 @@ public class Player extends Entity {
         _position.x += _velocity.x * speed * Time.deltaTime;
         _position.y += _velocity.y * speed * Time.deltaTime;
 
-        Core.getInstance().currentScene().mainCamera.position.lerp(new Vector3(_position.x, _position.y, 0), 3f * Time.deltaTime);
+        Core.getInstance().currentScene().mainCamera.followEntity(this, 3);
         handleInput();
         setPosition(_position);
     }
 
     @Override
     public void draw() {
+        SpriteBatch batch =  Core.getInstance().currentScene().batch;
+
         update();
-        _sprite.draw(Core.getInstance().currentScene().batch);
+        _sprite.draw(batch);
     }
 
     @Override
